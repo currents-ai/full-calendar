@@ -9,9 +9,10 @@ import {
   setMinutes,
   subDays,
 } from "date-fns"
-import { EventCalendar, EventDialog, type CalendarEvent } from "react-calendar"
+import { CalendarEvent, EventCalendar } from "react-calendar"
 import { toast } from "sonner"
 
+import { EventDialog } from "@/components/event-calendar"
 import ThemeToggle from "@/components/theme-toggle"
 
 // Sample events data with hardcoded times
@@ -19,7 +20,8 @@ const sampleEvents: CalendarEvent[] = [
   {
     id: "1",
     title: "Annual Planning",
-    description: "Strategic planning for next year",
+    description:
+      "Strategic planning for next year, aspect-based sentiment analysis subscription",
     start: subDays(new Date(), 24), // 24 days before today
     end: subDays(new Date(), 23), // 23 days before today
     allDay: true,
