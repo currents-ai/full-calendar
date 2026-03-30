@@ -12,7 +12,7 @@ import {
 import { CalendarEvent, EventCalendar } from "react-calendar"
 import { toast } from "sonner"
 
-import { EventDialog } from "@/components/event-calendar"
+import { EventDialog } from "@/components/event-dialog"
 import ThemeToggle from "@/components/theme-toggle"
 
 // Sample events data with hardcoded times
@@ -27,68 +27,75 @@ const sampleEvents: CalendarEvent[] = [
     allDay: true,
     color: "sky",
     location: "Main Conference Hall",
+    tag: { label: "Done", color: "green" },
   },
   {
     id: "2",
-    title: "Project Deadline",
+    title: "Project Deadline, Submit final deliverables" ,
     description: "Submit final deliverables",
-    start: setMinutes(setHours(subDays(new Date(), 9), 13), 0), // 1:00 PM, 9 days before
-    end: setMinutes(setHours(subDays(new Date(), 9), 15), 30), // 3:30 PM, 9 days before
+    start: setMinutes(setHours(subDays(new Date(), 9), 13), 0),
+    end: setMinutes(setHours(subDays(new Date(), 9), 15), 30),
     color: "amber",
     location: "Office",
+    tag: { label: "Urgent", color: "red" },
   },
   {
     id: "3",
     title: "Quarterly Budget Review",
     description: "Strategic planning for next year",
-    start: subDays(new Date(), 13), // 13 days before today
-    end: subDays(new Date(), 13), // 13 days before today
+    start: subDays(new Date(), 13),
+    end: subDays(new Date(), 13),
     allDay: true,
     color: "orange",
     location: "Main Conference Hall",
+    tag: { label: "Done", color: "green" },
   },
   {
     id: "4",
     title: "Team Meeting",
     description: "Weekly team sync",
-    start: setMinutes(setHours(new Date(), 10), 0), // 10:00 AM today
-    end: setMinutes(setHours(new Date(), 11), 0), // 11:00 AM today
+    start: setMinutes(setHours(new Date(), 10), 0),
+    end: setMinutes(setHours(new Date(), 11), 0),
     color: "sky",
     location: "Conference Room A",
+    tag: { label: "In Progress", color: "blue" },
   },
   {
     id: "5",
     title: "Lunch with Client",
     description: "Discuss new project requirements",
-    start: setMinutes(setHours(addDays(new Date(), 1), 12), 0), // 12:00 PM, 1 day from now
-    end: setMinutes(setHours(addDays(new Date(), 1), 13), 15), // 1:15 PM, 1 day from now
+    start: setMinutes(setHours(addDays(new Date(), 1), 12), 0),
+    end: setMinutes(setHours(addDays(new Date(), 1), 13), 15),
     color: "emerald",
     location: "Downtown Cafe",
+    tag: { label: "Confirmed", color: "emerald" },
   },
   {
     id: "6",
     title: "Product Launch",
     description: "New product release",
-    start: addDays(new Date(), 3), // 3 days from now
-    end: addDays(new Date(), 6), // 6 days from now
+    start: addDays(new Date(), 3),
+    end: addDays(new Date(), 6),
     allDay: true,
     color: "violet",
+    tag: { label: "Draft", color: "amber" },
   },
   {
     id: "7",
     title: "Sales Conference",
     description: "Discuss about new clients",
-    start: setMinutes(setHours(addDays(new Date(), 4), 14), 30), // 2:30 PM, 4 days from now
-    end: setMinutes(setHours(addDays(new Date(), 5), 14), 45), // 2:45 PM, 5 days from now
+    start: setMinutes(setHours(addDays(new Date(), 4), 14), 30),
+    end: setMinutes(setHours(addDays(new Date(), 5), 14), 45),
     color: "rose",
     location: "Downtown Cafe",
+    tag: { label: "Pending", color: "orange" },
   },
   {
     id: "8",
     title: "Team Meeting",
     description: "Weekly team sync",
-    start: setMinutes(setHours(addDays(new Date(), 5), 9), 0), // 9:00 AM, 5 days from now
-    end: setMinutes(setHours(addDays(new Date(), 5), 10), 30), // 10:30 AM, 5 days from now
+    start: setMinutes(setHours(addDays(new Date(), 5), 9), 0),
+    end: setMinutes(setHours(addDays(new Date(), 5), 10), 30),
     color: "orange",
     location: "Conference Room A",
   },
@@ -96,17 +103,18 @@ const sampleEvents: CalendarEvent[] = [
     id: "9",
     title: "Review contracts",
     description: "Weekly team sync",
-    start: setMinutes(setHours(addDays(new Date(), 5), 14), 0), // 2:00 PM, 5 days from now
-    end: setMinutes(setHours(addDays(new Date(), 5), 15), 30), // 3:30 PM, 5 days from now
+    start: setMinutes(setHours(addDays(new Date(), 5), 14), 0),
+    end: setMinutes(setHours(addDays(new Date(), 5), 15), 30),
     color: "sky",
     location: "Conference Room A",
+    tag: { label: "Review", color: "violet" },
   },
   {
     id: "10",
     title: "Team Meeting",
     description: "Weekly team sync",
-    start: setMinutes(setHours(addDays(new Date(), 5), 9), 45), // 9:45 AM, 5 days from now
-    end: setMinutes(setHours(addDays(new Date(), 5), 11), 0), // 11:00 AM, 5 days from now
+    start: setMinutes(setHours(addDays(new Date(), 5), 9), 45),
+    end: setMinutes(setHours(addDays(new Date(), 5), 11), 0),
     color: "amber",
     location: "Conference Room A",
   },
@@ -114,29 +122,32 @@ const sampleEvents: CalendarEvent[] = [
     id: "11",
     title: "Marketing Strategy Session",
     description: "Quarterly marketing planning",
-    start: setMinutes(setHours(addDays(new Date(), 9), 10), 0), // 10:00 AM, 9 days from now
-    end: setMinutes(setHours(addDays(new Date(), 9), 15), 30), // 3:30 PM, 9 days from now
+    start: setMinutes(setHours(addDays(new Date(), 9), 10), 0),
+    end: setMinutes(setHours(addDays(new Date(), 9), 15), 30),
     color: "emerald",
     location: "Marketing Department",
+    tag: { label: "Confirmed", color: "emerald" },
   },
   {
     id: "12",
     title: "Annual Shareholders Meeting",
     description: "Presentation of yearly results",
-    start: addDays(new Date(), 17), // 17 days from now
-    end: addDays(new Date(), 17), // 17 days from now
+    start: addDays(new Date(), 17),
+    end: addDays(new Date(), 17),
     allDay: true,
     color: "sky",
     location: "Grand Conference Center",
+    tag: { label: "Pending", color: "orange" },
   },
   {
     id: "13",
     title: "Product Development Workshop",
     description: "Brainstorming for new features",
-    start: setMinutes(setHours(addDays(new Date(), 26), 9), 0), // 9:00 AM, 26 days from now
-    end: setMinutes(setHours(addDays(new Date(), 27), 17), 0), // 5:00 PM, 27 days from now
+    start: setMinutes(setHours(addDays(new Date(), 26), 9), 0),
+    end: setMinutes(setHours(addDays(new Date(), 27), 17), 0),
     color: "rose",
     location: "Innovation Lab",
+    tag: { label: "Draft", color: "amber" },
   },
 ]
 
@@ -149,6 +160,7 @@ export default function Home() {
   }
 
   const handleEventUpdate = (updatedEvent: CalendarEvent) => {
+    console.log('updatedEvent', updatedEvent)
     setEvents(
       events.map((event) =>
         event.id === updatedEvent.id ? updatedEvent : event
@@ -239,10 +251,11 @@ export default function Home() {
       <EventCalendar
         events={events}
         // onEventAdd={handleEventAdd}
-        // onEventUpdate={handleEventUpdate}
+        onEventUpdate={handleEventUpdate}
         onEventDelete={handleEventDelete}
         onEventSelect={handleEventSelect}
         onEventCreate={handleEventCreate}
+        eventHeight={16}
       />
       <EventDialog
         event={selectedEvent}

@@ -3,6 +3,13 @@
 import { useEffect, useMemo, useState } from "react"
 import { RiCalendarLine, RiDeleteBinLine } from "@remixicon/react"
 import { format, isBefore } from "date-fns"
+import type { CalendarEvent, EventColor } from "react-calendar"
+import {
+  DefaultEndHour,
+  DefaultStartHour,
+  EndHour,
+  StartHour,
+} from "react-calendar"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -32,13 +39,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import type { CalendarEvent, EventColor } from "@/components/event-calendar"
-import {
-  DefaultEndHour,
-  DefaultStartHour,
-  EndHour,
-  StartHour,
-} from "@/components/event-calendar/constants"
 
 interface EventDialogProps {
   event: CalendarEvent | null
